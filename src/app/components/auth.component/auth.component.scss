@@ -1,0 +1,58 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom right, #0C3B2E, #138557); /* tus colores */
+}
+
+.auth-card {
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 1.5rem;
+    color: #0C3B2E; /* tu color principal */
+  }
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .submit-btn {
+    cursor: pointer;
+    width: 100%;
+    padding: 0.8rem 0;
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: #138557;
+    color: white;
+    border-radius: 0.5rem;
+    
+
+    &:hover {
+      background-color: #0C3B2E;
+      cursor: pointer;
+    }
+
+  }
+
+    .invalid {
+      background-color: #A5D6A7;
+      cursor: not-allowed;
+    }
+
+    .error-message {
+        color: #FF4C4C; /* rojo intenso */
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+}
+

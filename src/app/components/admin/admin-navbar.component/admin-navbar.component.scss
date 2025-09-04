@@ -1,23 +1,29 @@
-
-.sidebar{
+/* Sidebar base */
+.sidebar {
     display: flex;
     flex-direction: column;
     background-color: #0C3B2E;
     height: 100vh;
     width: 250px;
-    
     position: fixed;
-    
+    transition: transform 0.3s ease;
 }
-.btn-toggle{
+
+/* Botón hamburguesa */
+.btn-toggle {
     height: 50px;
     width: 50px;
-    display: none;
+    display: none; /* se muestra solo en pantallas chicas */
+    margin: 10px;
+    color: black;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
-.nav-content{
-    
-    width: 250px;
 
+/* Contenido del menú */
+.nav-content {
+    width: 250px;
     display: flex;
     flex-direction: column;
     font-size: 20px;
@@ -25,24 +31,13 @@
     justify-content: space-around;
     height: 100%;
 }
-a{
-    text-decoration: none;
-    margin-left: 5px;
-}
-ul{
-    margin: 0px;
-    padding: 0px;
-}
-ul li {
-    display: flex;
-    align-items:end;
-    list-style: none; 
-    margin: 50px;
-}
-ul li a {
-   color: white;
-}
-.btn-logout{
+
+/* Links */
+a { text-decoration: none; margin-left: 5px; }
+ul { margin: 0; padding: 0; }
+ul li { display: flex; align-items: end; list-style: none; margin: 50px; }
+ul li a { color: white; }
+.btn-logout {
     width: 130px;
     height: 50px;
     display: flex;
@@ -55,10 +50,29 @@ ul li a {
     border-radius: 5px;
     font-size: 17px;
 }
-.nav-icon{
-    color:  #FFBA00;
-}
+.nav-icon { color: #FFBA00; }
+.active { border-bottom: 2px solid #FFBA00; }
 
-.active{
-    border-bottom: 2px solid  #FFBA00;
+/* Responsive: Pantallas < 768px */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%); /* oculto por defecto */
+        z-index: 1000;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .sidebar.open {
+        transform: translateX(0); /* visible al abrir */
+    }
+
+    .btn-toggle {
+        display: block; /* se muestra el botón */
+        position: relative;
+        top: 0;
+        left: 0;
+        color: black;
+        z-index: 1100;
+    }
 }
