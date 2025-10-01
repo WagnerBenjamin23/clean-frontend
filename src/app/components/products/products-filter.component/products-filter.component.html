@@ -1,0 +1,46 @@
+<form [formGroup]="filterForm" class="filters-container">
+
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Buscar</mat-label>
+    <input matInput formControlName="search" placeholder="Nombre del producto..."  class="filter-input" (input)="applyFilter()"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Categoría</mat-label>
+    <mat-select formControlName="category" class="filter-input" (selectionChange)="applyFilter()">
+      <mat-option value="">Todas</mat-option>
+      <mat-option *ngFor="let cat of categories" [value]="cat.idcategory">
+        {{ cat.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Stock</mat-label>
+    <mat-select formControlName="stock" class="filter-input" (selectionChange)="applyFilter()">
+      <mat-option value="">Todos</mat-option>
+      <mat-option value="inStock">Con stock</mat-option>
+      <mat-option value="out">Sin stock</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <div class="price-slider">
+    <mat-form-field appearance="outline" class="filter-field" style="max-width: 120px;">
+        <mat-label> Precio minimo </mat-label>
+        <input matInput type="number" formControlName="minPrice" class="filter-input" (input)="applyFilter()" > 
+    </mat-form-field>
+    <span> - </span>
+    <mat-form-field appearance="outline" class="filter-field" style="max-width: 120px;">
+        <mat-label> Precio maximo </mat-label>
+        <input matInput type="number" formControlName="maxPrice" class="filter-input" (input)="applyFilter()">
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button color="primary" type="submit" (click)="clearFilters()" >
+    Limpiar filtros
+  </button>
+
+</form>
+

@@ -1,0 +1,56 @@
+
+ <button matFab extended style="background-color: #0C3B2E;" class="btn-add" (click)="isSubmitting=true">
+        <mat-icon>add</mat-icon>
+        Añadir producto
+</button>
+@if (isSubmitting) {
+  <div class="form-createEvent-container" >
+  <div class="form-createEvent">
+    <!-- Lado izquierdo: Formulario -->
+    <div class="form-left">
+      <form [formGroup]="productForm" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Precio</mat-label>
+          <input type="number" matInput formControlName="price" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Stock</mat-label>
+          <input type="number" matInput formControlName="stock" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Categoría</mat-label>
+          <mat-select formControlName="id_category">
+            <mat-option *ngFor="let cat of categories" [value]="cat.idcategory">
+              {{ cat.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <app-upload-images (filesChanged)="onFilesChanged($event)"></app-upload-images>
+
+        <button mat-raised-button color="primary" type="submit" style="margin-right: 20px;">
+          Crear producto
+        </button>
+        <button mat-raised-button color="warn" type="submit" (click)="isSubmitting=false">
+          Cancelar
+        </button>
+      </form>
+    </div>
+
+   
+  </div>
+</div>
+}
+

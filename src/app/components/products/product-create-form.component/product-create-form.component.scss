@@ -1,0 +1,87 @@
+:host{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form-createEvent-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+}
+
+.btn-add{
+  height: 40px;
+  font-size: 13px;
+  margin: 10px;
+}
+
+/* Caja del formulario general */
+.form-createEvent {
+  width: 500px;   
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  gap: 20px;
+}
+
+/* Lado izquierdo: formulario */
+.form-left {
+  flex: 2;
+}
+
+.form-left mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.form-left button {
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 16px;
+}
+
+/* Lado derecho: preview */
+.form-right {
+  flex: 1;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.form-right h4 {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.preview-container img {
+  width: 120px;                /* tamaño pequeño */
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Mensaje cuando no hay imágenes */
+.form-right p {
+  font-size: 14px;
+  color: #666;
+}

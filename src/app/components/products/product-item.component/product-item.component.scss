@@ -1,0 +1,14 @@
+.grid-item {
+      display: grid;
+      grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
+      align-items: center;
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+    .actions{
+      display: flex;
+    }
+    .actions button {
+      margin-right: 5px;
+      cursor: pointer;
+    }

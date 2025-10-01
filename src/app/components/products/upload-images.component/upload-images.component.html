@@ -1,0 +1,26 @@
+<div class="upload-container">
+  <!-- Input de archivos -->
+  <input
+    type="file"
+    accept="image/*"
+    multiple
+    (change)="onFileChange($event)"
+  />
+
+  <!-- Botón para limpiar selección -->
+  <button
+    mat-stroked-button
+    color="warn"
+    *ngIf="previewUrls.length > 0"
+    (click)="clearSelection()"
+  >
+    Limpiar selección
+  </button>
+
+  <!-- Vista previa de imágenes -->
+  <div class="preview-container" *ngIf="previewUrls.length > 0">
+    <div class="preview-item" *ngFor="let url of previewUrls">
+      <img [src]="url" alt="preview" />
+    </div>
+  </div>
+</div>

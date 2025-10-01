@@ -1,0 +1,28 @@
+<div class="grid-item">
+
+    <div> {{ product.idproducts }}</div>
+    <div>
+        <img src="{{product.images_url}}" alt="">
+        {{ product.name }}</div>
+    <div>{{ product.price }}</div>
+    @if (product.stock > 0) {
+        <div>{{ product.stock }}</div>
+    }
+    @else {
+        <div><span style="color: brown;">Sin stock</span></div>
+    }
+   
+    <div class="actions">
+    <button mat-icon-button (click)="toggleEdit()"><mat-icon>edit</mat-icon></button>
+    <button mat-icon-button (click)="deleteProduct(product.idproducts)" style="color: rgb(190, 89, 89);"><mat-icon>delete</mat-icon></button>
+    @if (product.is_active === 0) {
+        <button mat-icon-button (click)="toggleVisibility()">
+            <mat-icon>visibility</mat-icon>
+        </button>
+    } @else {
+        <button mat-icon-button (click)="toggleVisibility()">
+            <mat-icon>visibility_off</mat-icon>
+        </button>  
+    }
+</div>
+

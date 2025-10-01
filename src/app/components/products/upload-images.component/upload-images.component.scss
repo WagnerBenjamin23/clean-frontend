@@ -1,0 +1,147 @@
+.upload-container {
+  max-width: 100%;
+  padding: 16px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  text-align: center;
+  transition: border-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  flex-direction: column;
+  
+}
+
+.upload-container:hover {
+  border-color: #2196f3;
+}
+
+.file-input {
+
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  max-width: 100%;
+}
+
+.file-input:hover {
+  border-color: #2196f3;
+}
+
+.file-input:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+.selected-files {
+  margin-top: 16px;
+  text-align: left;
+}
+
+.selected-files h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.preview-item {
+  display: flex;
+  flex-direction: column;
+  max-width: 100px;
+  max-height: 100px;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background: white;
+}
+
+.preview-item img {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.file-info {
+  text-align: center;
+  width: 100%;
+}
+
+.file-info p {
+  margin: 0 0 4px 0;
+  font-size: 12px;
+  color: #333;
+  word-break: break-word;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-info small {
+  font-size: 10px;
+  color: #666;
+}
+
+.clear-btn {
+  margin-top: 8px;
+}
+
+.no-files {
+  color: #666;
+  padding: 20px;
+}
+
+.no-files mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #ccc;
+  margin-bottom: 8px;
+}
+
+.no-files p {
+  margin: 8px 0 4px 0;
+  font-size: 14px;
+}
+
+.no-files small {
+  font-size: 12px;
+  color: #999;
+}
+
+mat-progress-bar {
+  margin: 16px 0;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .preview-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+  }
+
+  .preview-item img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .file-info p {
+    max-width: 70px;
+  }
+}

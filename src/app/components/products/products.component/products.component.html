@@ -1,0 +1,65 @@
+<div class="create">
+  <h1>Productos</h1>
+  <app-product-create-form></app-product-create-form>
+</div>
+
+<app-products-filter 
+  [categories]="categories"
+  [products]="productsLoaded"
+  (filterChange)="onProductsFiltered($event)">
+</app-products-filter>
+
+
+
+<div  class="products-container">
+    <div class="grid header">
+    <div>#</div>
+    <div>Nombre</div>
+    <div>Precio</div>
+    <div>Stock</div>
+    <div>Acciones</div>
+    </div>
+
+        
+    <app-product-item  (isEditing)="onEditing($event)" (onDelete)="onDelete($event)" *ngFor="let product of paginatedProducts; let i = index; trackBy: trackById" [product]="product" [index]="i" (visibilityChange)="onVisibilityChange($event)"></app-product-item>
+    
+
+    <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage===0">Anterior</button>
+    <span>Página {{currentPage + 1}} de {{totalPages}}</span>
+    <button (click)="nextPage()" [disabled]="currentPage+1===totalPages">Siguiente</button>
+    </div>
+</div>
+
+@if (selectedProduct) {
+    <div class="edit-form-overlay" *ngIf="selectedProduct">
+  <form [formGroup]="editForm" class="edit-form" >
+    <mat-form-field appearance="outline" floatLabel="always" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" placeholder="Nombre del producto" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" floatLabel="always" class="full-width">
+      <mat-label>Precio</mat-label>
+      <span matPrefix>$&nbsp;</span>
+      <input matInput type="number" formControlName="price" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" floatLabel="always" class="full-width">
+      <mat-label>Stock</mat-label>
+      <input matInput type="number" formControlName="stock" />
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-raised-button style="background-color: green; color: white;" type="submit" [disabled]="editForm.invalid">
+        Guardar
+      </button>
+      <button mat-stroked-button color="warn" type="button" (click)="onEditing({ id: selectedProduct.idproducts, isEditing: selectedProduct.isEditing })">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>
+
+}
+
