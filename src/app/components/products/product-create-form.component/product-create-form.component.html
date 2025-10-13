@@ -4,8 +4,8 @@
         Añadir producto
 </button>
 @if (isSubmitting) {
-  <div class="form-createEvent-container" >
-  <div class="form-createEvent">
+  <div class="form-createProduct-container" >
+  <div class="form-createProduct">
     <!-- Lado izquierdo: Formulario -->
     <div class="form-left">
       <form [formGroup]="productForm" (ngSubmit)="submit()">
@@ -40,12 +40,15 @@
 
         <app-upload-images (filesChanged)="onFilesChanged($event)"></app-upload-images>
 
-        <button mat-raised-button color="primary" type="submit" style="margin-right: 20px;">
-          Crear producto
-        </button>
-        <button mat-raised-button color="warn" type="submit" (click)="isSubmitting=false">
-          Cancelar
-        </button>
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" style="margin-right: 20px;">
+            Crear producto
+          </button>
+          <button mat-raised-button color="warn" type="submit" (click)="isSubmitting=false">
+            Cancelar
+          </button>
+        </div>
+        
       </form>
     </div>
 

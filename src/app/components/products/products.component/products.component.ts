@@ -128,7 +128,7 @@ throw new Error('Method not implemented.');
 }
 
 onDelete(event: {id:number}){
-  console.log("EVENTO RECIBIDO", event)
+
     // 1. saco el producto de la lista principal
   this.productsLoaded = this.productsLoaded.filter((p: any) => p.idproducts !== event.id);
 

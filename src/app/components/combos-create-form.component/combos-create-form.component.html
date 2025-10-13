@@ -1,0 +1,59 @@
+<button matFab extended style="background-color: #0C3B2E;" class="btn-add" (click)="creating=true">
+    <mat-icon>add</mat-icon>
+    Añadir combo
+</button>
+<div class="form-createCombo-" *ngIf="creating">
+  <div class="create-container">
+
+  <form [formGroup]="comboForm" (ngSubmit)="createCombo()" class="combo-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del Combo</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Precio</mat-label>
+      <span matPrefix>$&nbsp;</span>
+      <input matInput type="number" formControlName="price" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+
+    <h3>Seleccionar productos:</h3>
+    <div class="products-list">
+      <mat-card
+        style="width: 100%;"
+        class="product-card"
+        *ngFor="let product of paginatedProducts"
+      >
+        <mat-checkbox
+          (change)="toggleProductSelection(product, $event.checked)">
+        </mat-checkbox>
+        <img [src]="product.images|| 'assets/placeholder.jpg'" alt="{{ product.name }}">
+        <span>{{ product.name }}</span>
+        <small>${{ product.price }}</small>
+      </mat-card>
+
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage===0" type="button">Anterior</button>
+        <span>Página {{currentPage + 1}} de {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage+1===totalPages" type="button">Siguiente</button>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit">
+        Crear Combo
+      </button>
+      <button mat-raised-button color="warn" type="submit" (click)="creating=false">
+        Cancelar
+      </button>
+    </div>
+    
+  </form>
+</div>
+</div>
+

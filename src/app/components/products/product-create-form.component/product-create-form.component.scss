@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
 }
-.form-createEvent-container {
+.form-createProduct-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -24,7 +24,7 @@
 }
 
 /* Caja del formulario general */
-.form-createEvent {
+.form-createProduct {
   width: 500px;   
   background: #ffffff;
   padding: 25px;
@@ -42,12 +42,6 @@
 .form-left mat-form-field {
   width: 100%;
   margin-bottom: 16px;
-}
-
-.form-left button {
-  margin-top: 10px;
-  padding: 12px;
-  font-size: 16px;
 }
 
 /* Lado derecho: preview */
@@ -72,7 +66,7 @@
 }
 
 .preview-container img {
-  width: 120px;                /* tamaño pequeño */
+  width: 120px;                
   height: 120px;
   object-fit: cover;
   border-radius: 8px;
@@ -80,8 +74,19 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Mensaje cuando no hay imágenes */
 .form-right p {
   font-size: 14px;
   color: #666;
 }
+
+.form-actions {
+  margin: 20px 0 0 0;
+  display: flex;
+  justify-content: flex-end;
+}
+.form-actions button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+

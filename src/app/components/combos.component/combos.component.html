@@ -1,0 +1,15 @@
+
+<app-combos-create-form 
+[products]="productsLoaded"
+(comboCreated)="onComboCreated($event)">    
+</app-combos-create-form>
+
+
+
+<div class="combos-container">
+    <app-combos-item 
+    *ngFor="let combo of combos"
+    [combo]="combo">
+    </app-combos-item>
+
+</div>
