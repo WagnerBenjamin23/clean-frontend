@@ -1,0 +1,29 @@
+<div class="content">
+  <app-category-create-form></app-category-create-form>
+  @for (category of categories; track $index) {
+      <mat-card class="card">
+           <mat-card-title class="card-item">
+              <small class="title"> NOMBRE </small>
+               {{category.name}}
+           </mat-card-title>
+           <mat-card-content class="card-item">
+              <small class="title"> DESCRIPCION </small>
+               {{category.description}}
+           </mat-card-content>
+   
+           <mat-card-actions class="card-item">
+              <small class="title"> ACCIONES </small>
+              <div class="buttons">
+                  <button mat-icon-button class="btn-card">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button class="btn-card" style="color: red;" (click)="deleteCategory(category.idcategory)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+              </div>
+               
+           </mat-card-actions>
+      </mat-card>
+       
+   }
+</div>

@@ -1,0 +1,34 @@
+<mat-card class="combo-card">
+  <mat-card-header>
+    <mat-card-title>{{ combo.name}}</mat-card-title>
+    <mat-card-subtitle>Precio total: ${{ combo.price}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <h4>Productos incluidos:</h4>
+    <div class="products-list">
+    
+        @for (p of combo.products; track $index) {
+            <div
+        class="product-item"        
+        >
+            <img
+            [src]="p.images || 'assets/placeholder.jpg'"
+            alt="{{ p.name }}"
+            />
+            <span>{{ p.name }}</span>
+        </div>
+        }
+      
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-icon-button aria-label="Editar combo" (click)="onEdit()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Eliminar combo"  (click)="onDelete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

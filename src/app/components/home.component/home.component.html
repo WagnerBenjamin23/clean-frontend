@@ -1,0 +1,38 @@
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div class="icon-container">
+            <span class="material-icons">dashboard</span>
+        </div>
+        <div>
+            <h1 class="dashboard-title">Panel de Control</h1>
+            <p class="dashboard-subtitle">Resumen general del sistema</p>
+        </div>
+    </div>
+
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Total de Productos</h3>
+      <p class="stat-number">{{ totalProductos }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Total de Categorías</h3>
+      <p class="stat-number">{{ totalCategorias }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Combos Activos</h3>
+      <p class="stat-number">{{ totalCombos }}</p>
+    </div>
+
+    <!-- 🔴 Nueva tarjeta: Productos sin stock -->
+    <div class="stat-card out-of-stock-card">
+      <h3>Productos sin Stock</h3>
+      <p class="stat-number">{{ productosSinStock }}</p>
+      <button class="view-details-btn" (click)="verProductosSinStock()">
+        Ver detalles
+      </button>
+    </div>
+  </div>
+</div>

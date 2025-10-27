@@ -1,0 +1,28 @@
+<button mat-fab extended style="background-color: #0C3B2E;" class="btn-add" (click)="showForm = true">
+  <mat-icon>add</mat-icon>
+  Añadir combo
+</button>
+
+
+<app-combos-create-form 
+  *ngIf="showForm"
+  [products]="productsLoaded"
+  [comboToEdit]="selectedCombo"
+  (comboCreated)="onComboCreated($event)"
+  (comboUpdated)="onComboSaved()"
+  (cancel)="showForm = false"
+>    
+</app-combos-create-form>
+
+
+
+<div class="combos-container">
+    <app-combos-item 
+    *ngFor="let combo of combos"
+    [combo]="combo"
+    (edit)="editCombo($event)"
+    (delete)="deleteCombo($event)"
+    >
+    </app-combos-item>
+
+</div>

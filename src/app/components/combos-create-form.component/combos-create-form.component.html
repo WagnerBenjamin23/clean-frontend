@@ -1,0 +1,57 @@
+
+<div class="form-createCombo-">
+  <div class="create-container">
+    <form [formGroup]="comboForm" (ngSubmit)="saveCombo()" class="combo-form">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre del Combo</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Precio</mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input matInput type="number" formControlName="price" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+
+      <h3>Productos:</h3>
+      <div class="products-list">
+        <mat-card *ngFor="let product of paginatedProducts" class="product-card">
+          <mat-checkbox
+            [checked]="isSelected(product)"
+            (change)="toggleProductSelection(product, $event.checked)">
+          </mat-checkbox>
+
+          <img [src]="product.images || 'assets/placeholder.jpg'" alt="{{ product.name }}">
+          <span>{{ product.name }}</span>
+          <small>${{ product.price }}</small>
+
+          <!-- Mostrar botón de eliminar solo si el combo ya lo tiene -->
+          <button *ngIf="isSelected(product)" mat-icon-button color="warn" type="button" (click)="removeProduct(product)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card>
+
+        <div class="pagination">
+          <button (click)="prevPage()" [disabled]="currentPage===0" type="button">Anterior</button>
+          <span>Página {{currentPage + 1}} de {{totalPages}}</span>
+          <button (click)="nextPage()" [disabled]="currentPage+1===totalPages" type="button">Siguiente</button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit">
+          {{ editMode ? 'Actualizar Combo' : 'Crear Combo' }}
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="resetForm()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

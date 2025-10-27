@@ -1,0 +1,17 @@
+<div class="form-category">
+  <form [formGroup]="formCategory" (ngSubmit)="saveCategory()">
+    <div class="form-item">
+      <label for="name">Nombre</label>
+      <input type="text" id="name" formControlName="name" />
+    </div>
+
+    <div class="form-item">
+      <label for="description">Descripción</label>
+      <input type="text" id="description" formControlName="description" />
+    </div>
+
+    <div class="form-item">
+      <button type="submit" [disabled]=" formCategory.invalid">Guardar</button>
+    </div>
+  </form>
+</div>

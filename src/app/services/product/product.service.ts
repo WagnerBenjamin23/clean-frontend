@@ -45,4 +45,8 @@ export class ProductService {
  uploadImages(productId: number, formData: FormData): Observable<string[]> {
     return this.http.post<string[]>(`${this.apiUrl}/${productId}/images`, formData);
   }
+
+  editProduct(productId: number, updatedData: any) {
+    return this.http.put(`${this.apiUrl}/${productId}`, updatedData, this.createHeader());
+  }
 }

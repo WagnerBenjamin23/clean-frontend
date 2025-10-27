@@ -15,12 +15,14 @@ import {MatButtonModule} from '@angular/material/button';
 import { ProductCreateFormComponent } from "../product-create-form.component/product-create-form.component";
 import { ProductsFilterComponent } from "../products-filter.component/products-filter.component";
 import { CategoryService } from '../../../services/category/category.service';
+import { ProductEditFormComponent } from "../product-edit-form.component/product-edit-form.component";
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-products',
   imports: [CommonModule, ProductItemComponent, ProductsFilterComponent, FormsModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule,
-    MatSelectModule, MatMenuModule, MatIconModule, MatDividerModule, MatButtonModule, ProductCreateFormComponent, ProductsFilterComponent],
+    MatSelectModule, MatMenuModule, MatIconModule, MatDividerModule, MatButtonModule, ProductCreateFormComponent, ProductsFilterComponent, ProductEditFormComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
@@ -37,16 +39,30 @@ editForm!: FormGroup;
 selectedProduct : any = '';
 filteredProducts : any[] = [];
 categories: any[]= [];
+stockFromQuery: string = '';
+initialStock: '' | 'inStock' | 'out' = '';
 
-constructor(private productsService : ProductService, private cdr: ChangeDetectorRef, private fb : FormBuilder, private categoryService : CategoryService) {}
+constructor(private productsService : ProductService, private cdr: ChangeDetectorRef, 
+  private fb : FormBuilder, private categoryService : CategoryService,
+  private router : Router,private route: ActivatedRoute
+) {}
 
 ngOnInit(): void {
-  this.getAllCategories()
+  this.getAllCategories();
+  this.loadProducts();
+   this.route.queryParamMap.subscribe(params => {
+    const stockParam = params.get('stock') || '';
+    this.initialStock =
+      Number(stockParam)  > 0 ? 'inStock' :
+      Number(stockParam) === 0 ? 'out' : '';
+    
     this.loadProducts();
+  });  
+
 }
 
 trackById(index: number, product: any) {
-  return product.idproducts; // o cualquier identificador único
+  return product.idproducts;
 }
 
 getAllCategories(){
@@ -150,27 +166,29 @@ onDelete(event: {id:number}){
 }
 
 
-onEditing(event: { id: number; isEditing: boolean }) {
+onEditing(product : any) {
 
-  if (this.selectedProduct && this.selectedProduct.idproducts === event.id) {
-    this.selectedProduct = null;
-    return;
-  }
-  
-    this.selectedProduct = this.productsLoaded.find((p: any) => p.idproducts === event.id);
-   console.log('seleccionado', this.selectedProduct)
-
-    if (this.selectedProduct) {
-      this.editForm = this.fb.group({
-        name: [this.selectedProduct.name, Validators.required],
-        price: [this.selectedProduct.price, Validators.required],
-        stock: [this.selectedProduct.stock, Validators.required]
-      });
-    }
-  
-  
-    console.log(event)
+  this.selectedProduct = product;
 }
 
+updateProduct(updatedData: any) {
+  // Podés combinar los datos nuevos con el ID del producto original
+  const productToUpdate = {
+    ...this.selectedProduct,
+    ...updatedData
+  };
+
+  console.log('Datos a actualizar:', productToUpdate);
+  this.productsService.editProduct(productToUpdate.id, productToUpdate).subscribe({
+    next: (res) => {
+      console.log('Producto actualizado:', res);
+      this.selectedProduct = null; // Cerrar el formulario
+      this.loadProducts(); // Volver a cargar la lista
+    },
+    error: (err) => {
+      console.error('Error al actualizar el producto:', err);
+    }
+  });
+}
 
 }
