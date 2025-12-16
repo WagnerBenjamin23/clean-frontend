@@ -15,12 +15,14 @@ import {MatButtonModule} from '@angular/material/button';
 import { ProductCreateFormComponent } from "../product-create-form.component/product-create-form.component";
 import { ProductsFilterComponent } from "../products-filter.component/products-filter.component";
 import { CategoryService } from '../../../services/category/category.service';
+import { ProductEditFormComponent } from "../product-edit-form.component/product-edit-form.component";
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-products',
   imports: [CommonModule, ProductItemComponent, ProductsFilterComponent, FormsModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule,
-    MatSelectModule, MatMenuModule, MatIconModule, MatDividerModule, MatButtonModule, ProductCreateFormComponent, ProductsFilterComponent],
+    MatSelectModule, MatMenuModule, MatIconModule, MatDividerModule, MatButtonModule, ProductCreateFormComponent, ProductsFilterComponent, ProductEditFormComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
@@ -37,16 +39,41 @@ editForm!: FormGroup;
 selectedProduct : any = '';
 filteredProducts : any[] = [];
 categories: any[]= [];
+stockFromQuery: string = '';
+initialStock: '' | 'inStock' | 'out' = '';
+errorMesagge : any = null;
 
-constructor(private productsService : ProductService, private cdr: ChangeDetectorRef, private fb : FormBuilder, private categoryService : CategoryService) {}
+constructor(private productsService : ProductService, private cdr: ChangeDetectorRef, 
+  private fb : FormBuilder, private categoryService : CategoryService,
+  private router : Router,private route: ActivatedRoute
+) {}
 
 ngOnInit(): void {
-  this.getAllCategories()
+  this.getAllCategories();
+  this.loadProducts();
+   this.route.queryParamMap.subscribe(params => {
+    const stockParam = params.get('stock') || '';
+    this.initialStock =
+      Number(stockParam)  > 0 ? 'inStock' :
+      Number(stockParam) === 0 ? 'out' : '';
+    
     this.loadProducts();
+  });  
+}
+
+ngOnChanges() {
+  if (this.selectedProduct && this.editForm) {
+    this.editForm.patchValue({
+      name: this.selectedProduct.name,
+      price: this.selectedProduct.price,
+      description: this.selectedProduct.description,
+      stock: this.selectedProduct.stock
+    });
+  }
 }
 
 trackById(index: number, product: any) {
-  return product.idproducts; // o cualquier identificador único
+  return product.idproducts;
 }
 
 getAllCategories(){
@@ -75,6 +102,14 @@ this.productsService.getProducts().subscribe({
     this.currentPage = 0;
     this.updatePaginatedProducts();
     this.cdr.detectChanges();
+  },
+  error: (e) => {
+    if(e.status === 404){
+      this.errorMesagge = 'No hay productos disponibles.';
+    }
+    else{
+      this.errorMesagge = 'Error al cargar los productos.';
+    }
   }
 })
 }
@@ -123,53 +158,55 @@ onVisibilityChange(event: {id:number, visible:boolean}) {
   }
 
 
-editProduct(_t13: any) {
-throw new Error('Method not implemented.');
+editProduct(event: any) {
+
+  this.selectedProduct = event.product;
 }
-
 onDelete(event: {id:number}){
-
-    // 1. saco el producto de la lista principal
+  
   this.productsLoaded = this.productsLoaded.filter((p: any) => p.idproducts !== event.id);
 
-  // 2. recalculo total de páginas
   this.totalPages = Math.ceil(this.productsLoaded.length / this.pageSize);
-
-  // 3. si estoy en una página mayor al total, retrocedo
+ 
   if (this.currentPage >= this.totalPages) {
     this.currentPage = Math.max(this.totalPages - 1, 0);
   }
 
-  // 4. vuelvo a armar la lista de productos visibles
   this.updatePaginatedProducts();
 
-  // 5. fuerza renderizado
   this.cdr.detectChanges();
-
-  console.log('Productos después de borrar', this.paginatedProducts);
 }
 
 
-onEditing(event: { id: number; isEditing: boolean }) {
+onEditing(event : any) {
 
-  if (this.selectedProduct && this.selectedProduct.idproducts === event.id) {
-    this.selectedProduct = null;
-    return;
-  }
-  
-    this.selectedProduct = this.productsLoaded.find((p: any) => p.idproducts === event.id);
-   console.log('seleccionado', this.selectedProduct)
+  this.selectedProduct = event.product;
 
-    if (this.selectedProduct) {
-      this.editForm = this.fb.group({
-        name: [this.selectedProduct.name, Validators.required],
-        price: [this.selectedProduct.price, Validators.required],
-        stock: [this.selectedProduct.stock, Validators.required]
-      });
+}
+
+updateProduct(updatedData: any) {
+  const productToUpdate = {
+    idproducts: this.selectedProduct.idproducts,
+    name: updatedData.name || this.selectedProduct.name,
+    description: updatedData.description || this.selectedProduct.description,
+    price: updatedData.price || this.selectedProduct.price,
+    stock: updatedData.stock || this.selectedProduct.stock,
+    categories_idcategory: this.selectedProduct.categories_idcategory,
+    images: this.selectedProduct.images,
+    is_active: this.selectedProduct.is_active
+  };
+
+
+  this.productsService.editProduct(productToUpdate.idproducts, productToUpdate).subscribe({
+    next: (res) => {
+   
+      this.selectedProduct = null;
+      this.loadProducts(); 
+    },
+    error: (err) => {
+      console.error('Error al actualizar el producto:', err);
     }
-  
-  
-    console.log(event)
+  });
 }
 
 

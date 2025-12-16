@@ -60,7 +60,7 @@ export class ProductCreateFormComponent implements OnInit {
 
   onFilesChanged(files: File[]) {
     this.selectedFiles = files;
-    console.log('Archivos seleccionados en el padre:', this.selectedFiles);
+  
   }
 
   submit() {
@@ -71,11 +71,11 @@ export class ProductCreateFormComponent implements OnInit {
 
   this.isSubmitting = true;
 
-  // 1. Subir cada archivo a Cloudinary
+ 
   const uploadPromises = this.selectedFiles.map(file => {
-    const data = new FormData();              // solo para Cloudinary
+    const data = new FormData();         
     data.append('file', file);
-    data.append('upload_preset', 'clean_web'); // configurado en Cloudinary
+    data.append('upload_preset', 'clean_web'); 
 
     return fetch('https://api.cloudinary.com/v1_1/db6i1piht/image/upload', {
       method: 'POST',
@@ -96,7 +96,7 @@ export class ProductCreateFormComponent implements OnInit {
 
       console.log('JSON a enviar al backend:', productData);
 
-      // 3. Enviar JSON al backend
+    
       this.productService.createProduct(productData).subscribe({
         next: (res) => {
           console.log('Producto creado:', res);

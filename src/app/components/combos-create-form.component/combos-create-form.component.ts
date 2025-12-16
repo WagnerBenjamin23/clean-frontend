@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,53 +15,88 @@ import { MatDividerModule } from '@angular/material/divider';
 import { CombosItemComponent } from '../combos-item.component/combos-item.component';
 import { CombosService } from '../../services/combos/combos.service';
 
-
-
 @Component({
   selector: 'app-combos-create-form',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatCardModule, MatListModule, MatDialogModule, MatTooltipModule, MatSelectModule, MatDividerModule, CombosItemComponent],
+  standalone: true,
+  
+  imports: [
+    CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule,
+    MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule,
+    MatCardModule, MatListModule, MatDialogModule, MatTooltipModule,
+    MatSelectModule, MatDividerModule, CombosItemComponent
+  ],
   templateUrl: './combos-create-form.component.html',
-  styleUrl: './combos-create-form.component.scss'
+  styleUrls: ['./combos-create-form.component.scss']
 })
-export class CombosCreateFormComponent implements OnInit, OnChanges{
+export class CombosCreateFormComponent implements OnInit, OnChanges {
 
+  
+  @Input() products: any[] = [];
+  @Input() comboToEdit: any | null = null;
+  @Output() comboCreated = new EventEmitter<any>();
+  @Output() comboUpdated = new EventEmitter<any>();
+  @Output() cancel = new EventEmitter<void>();
 
+  comboForm!: FormGroup;
+  selectedProducts: any[] = [];
+  filteredProducts: any[] = [];
+  paginatedProducts: any[] = [];
+  editMode: boolean = false;
+ 
 
-@Input() products: any[] = []; 
-@Output() comboCreated = new EventEmitter<any>();
-comboForm!: FormGroup;
-selectedProducts: any[] = [];
-currentPage: number = 0;
-pageSize: number = 3;
-totalPages: number = 1;
-paginatedProducts: any[] = [];
-creating: boolean = false
+  currentPage: number = 0;
+  pageSize: number = 3;
+  totalPages: number = 1;
 
+  constructor(private fb: FormBuilder, private combosService: CombosService) {
+    this.comboForm = this.fb.group({
+      name: [''],
+      price: [''],
+      description: ['']
+    });
+  }
 
-constructor(private fb : FormBuilder, private combosService : CombosService) { 
-  this.comboForm = this.fb.group({
-    name: [''],
-    description: [''],
-    price: [''],
-  }); 
-}
+  ngOnInit(): void {
+    this.initializeForm();
+  
+  }
 
-ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['products'] && changes['products'].currentValue) {
+      this.initializeForm();
+    }
+  }
 
-}
-ngOnChanges(changes: any): void {
-  if (changes['products'] && this.products) {
-    this.filteredProducts = [...this.products];
+  initializeForm() {
+    if (this.comboToEdit) {
+   
+      this.editMode = true;
+      
+      this.comboForm.patchValue({
+        name: this.comboToEdit.name,
+        price: this.comboToEdit.price,
+        description: this.comboToEdit.description
+      });
+
+      this.selectedProducts = [...this.comboToEdit.products];
+      this.filteredProducts = this.products;
+      this.filteredProducts.sort((a, b) => {
+      const aSelected = this.isSelected(a) ? 0 : 1;
+      const bSelected = this.isSelected(b) ? 0 : 1;
+      return aSelected - bSelected;
+    });
+
+    } else {
+ 
+      this.editMode = false;
+      this.filteredProducts = [...this.products];
+    }
+
     this.totalPages = Math.ceil(this.filteredProducts.length / this.pageSize);
     this.updatePaginatedProducts();
   }
-}
 
-
-filteredProducts: any[] = this.products;
-
-
-toggleProductSelection(product: any, checked: boolean) {
+  toggleProductSelection(product: any, checked: boolean) {
     if (checked) {
       this.selectedProducts.push(product);
     } else {
@@ -70,38 +104,67 @@ toggleProductSelection(product: any, checked: boolean) {
     }
   }
 
-  createCombo() {
-    if (this.comboForm.valid && this.selectedProducts.length > 0) {
-     const newCombo = {
-      ...this.comboForm.value,
-      products: this.selectedProducts.map(product => product.idproducts) 
-    };
-    console.log('Datos del nuevo combo:', newCombo);
-      this.combosService.createCombo(newCombo).subscribe({
-        next: (response) => {
-          console.log('Combo creado con éxito:', response); 
-        },
-        error: (error) => {
-          console.error('Error al crear el combo:', error);
-        }
-      })
+  isSelected(product: any): boolean {
+    return this.selectedProducts.some(p => p.idproducts === product.idproducts);
+  }
 
-      this.comboCreated.emit(newCombo);
-      this.comboForm.reset();
-      this.selectedProducts = [];
-      console.log('Nuevo combo creado:', newCombo);
+   reorderProducts() {
+    this.filteredProducts.sort((a, b) => {
+      const aSelected = this.isSelected(a) ? 0 : 1;
+      const bSelected = this.isSelected(b) ? 0 : 1;
+      return aSelected - bSelected;
+    });
+    this.updatePaginatedProducts();
+  }
+
+  removeProduct(product: any) {
+    this.selectedProducts = this.selectedProducts.filter(p => p.idproducts !== product.idproducts);
+  
+    this.reorderProducts();
+    this.updatePaginatedProducts();
+  }
+
+  saveCombo() {
+    if (this.comboForm.valid && this.selectedProducts.length > 0) {
+      const comboData = {
+        ...this.comboForm.value,
+        products: this.selectedProducts.map(p => p.idproducts)
+      };
+
+      console.log('COMBO A EDITAR', this.comboToEdit)
+      const request = this.editMode
+        ? this.combosService.updateCombo(this.comboToEdit.idcombo, comboData)
+        : this.combosService.createCombo(comboData);
+
+      request.subscribe({
+        next: (response) => {
+     
+          this.editMode ? this.comboUpdated.emit(response) : this.comboCreated.emit(response);
+          this.resetForm();
+        },
+        error: (error) => console.error('Error guardando el combo:', error)
+      });
     } else {
       alert('Completa todos los campos y selecciona al menos un producto.');
     }
   }
 
-  updatePaginatedProducts() {
-     const start = this.currentPage * this.pageSize;
-     this.paginatedProducts = this.filteredProducts.slice(start, start + this.pageSize);
-     this.totalPages = Math.ceil(this.filteredProducts.length / this.pageSize);
+  resetForm() {
+    this.comboForm.reset();
+    this.selectedProducts = [];
+    this.filteredProducts = [];
+    this.editMode = false;
+    this.currentPage = 0;
+    this.cancel.emit();
   }
 
-  
+
+  updatePaginatedProducts() {
+    const start = this.currentPage * this.pageSize;
+    this.paginatedProducts = this.filteredProducts.slice(start, start + this.pageSize);
+    this.totalPages = Math.ceil(this.filteredProducts.length / this.pageSize);
+  }
+
   nextPage() {
     if (this.currentPage + 1 < this.totalPages) {
       this.currentPage++;
@@ -115,6 +178,4 @@ toggleProductSelection(product: any, checked: boolean) {
       this.updatePaginatedProducts();
     }
   }
-
-
 }

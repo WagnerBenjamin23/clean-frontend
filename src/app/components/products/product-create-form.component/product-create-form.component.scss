@@ -2,6 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 100vw;
+  width: 100%;
 }
 .form-createProduct-container {
   position: fixed;
@@ -79,14 +81,61 @@
   color: #666;
 }
 
-.form-actions {
-  margin: 20px 0 0 0;
+.page-header {
   display: flex;
-  justify-content: flex-end;
-}
-.form-actions button {
-  margin-left: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+  max-width: 100vw;
+  width: 100%;
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon-container {
+  background-color: #1976d2;
+  color: white;
+  border-radius: 50%;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.page-subtitle {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+}
+
+.add-btn:hover {
+  background-color: #125ca1;
+}

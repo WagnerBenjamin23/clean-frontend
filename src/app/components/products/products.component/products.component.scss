@@ -1,4 +1,6 @@
-
+:host{
+  max-width: 100vw;
+}
 .grid {
     max-width: 100vw;
     display: grid;
@@ -21,49 +23,24 @@
     justify-content: center;
     gap: 10px;
 }
-.edit-form-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-  position: absolute;
-  top: 25%;
-  left:50%;
-  backdrop-filter: blur(8px);
-}
 
-.edit-form-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(8px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.edit-form {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  max-width: 400px;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  z-index: 1010;
-}
-
-.full-width {
+.no-products {
   width: 100%;
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #f5f5f5;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  border: 1px dashed #bbb;
 }
 
-.form-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
+.no-products mat-icon {
+  color: #888;
 }
+

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ProductService } from '../../../services/product/product.service';
@@ -18,19 +18,39 @@ export class ProductItemComponent implements OnInit {
   @Input() index!: number;
   currentPage: any;
   totalPages: any;
-  
+  isSmallScreen = false;
+  showMenu = false;
 
   constructor(private productsService : ProductService, private fb : FormBuilder) { }
   ngOnInit(): void {
-     
+     this.checkScreenSize();
   }
 
   
   
   // product-item.component.ts
   @Output() visibilityChange = new EventEmitter<{id:number, visible:boolean}>();
-  @Output() isEditing = new EventEmitter<{id:number, isEditing: boolean}>();
+  @Output() edit = new EventEmitter<{product:any, isEditing: boolean}>();
   @Output() onDelete = new EventEmitter<{id:number}>();
+  @Output() save = new EventEmitter<any>();
+
+
+  @HostListener('window:resize')
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isSmallScreen = window.innerWidth < 768; // podés ajustar el breakpoint
+    if (!this.isSmallScreen) {
+      this.showMenu = false; // cerrar menú al agrandarse la pantalla
+    }
+  }
+
+  toggleMenu() {
+    this.showMenu = !this.showMenu;
+  }
+
 
   toggleVisibility() {
     if(this.product.is_active === 0) {
@@ -43,9 +63,9 @@ export class ProductItemComponent implements OnInit {
 
   toggleEdit() {
     if(this.product.isEditing) {
-      this.isEditing.emit({id: this.product.idproducts, isEditing: false })
+      this.edit.emit({product: this.product, isEditing: false })
     }else{
-      this.isEditing.emit({id: this.product.idproducts, isEditing: true })
+      this.edit.emit({product: this.product, isEditing: true })
     }  
   }
   
@@ -68,8 +88,6 @@ export class ProductItemComponent implements OnInit {
     }
   })
 }
-  editProduct(_t13: any) {
-  throw new Error('Method not implemented.');
-  }
+
 
   }

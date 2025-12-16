@@ -1,0 +1,55 @@
+.form-category form{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    flex-wrap: wrap;
+
+  }
+  .form-item{
+    margin: 5px;
+  }
+  
+  .form-category label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-category input[type="text"],
+  .form-category input[type="number"],
+  .form-category select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .form-category input[type="number"]{
+    width: 75px;
+  }
+  
+  .form-category button {
+ 
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #FFBA00;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    height: 45px;
+    position: relative;
+    top: 5px;
+  }
+  
+  .form-category button:hover {
+    background-color: #b1850d;
+  }

@@ -1,15 +1,51 @@
+<div class="page-header">
+  <div class="header-left">
+    <div class="icon-container">
+      <mat-icon>local_offer</mat-icon>
+    </div>
+    <div>
+      <h1 class="page-title">Combos</h1>
+      <p class="page-subtitle">Combos de limpieza</p>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <button mat-fab extended style="background-color: #0C3B2E;" class="btn-add" (click)="showForm = true">
+      <mat-icon>add</mat-icon>
+      Añadir combo
+    </button>
+  </div>
+</div>
+
+
+
 
 <app-combos-create-form 
-[products]="productsLoaded"
-(comboCreated)="onComboCreated($event)">    
+  *ngIf="showForm"
+  [products]="productsLoaded"
+  [comboToEdit]="selectedCombo"
+  (comboCreated)="onComboCreated($event)"
+  (comboUpdated)="onComboSaved()"
+  (cancel)="showForm = false"
+>    
 </app-combos-create-form>
 
 
 
 <div class="combos-container">
+  @if (errorMessage) {
+    <div class="no-combos">
+      <mat-icon>info</mat-icon>
+      {{ errorMessage }}
+    </div>
+  }
+
     <app-combos-item 
     *ngFor="let combo of combos"
-    [combo]="combo">
+    [combo]="combo"
+    (edit)="editCombo($event)"
+    (delete)="deleteCombo($event)"
+    >
     </app-combos-item>
 
 </div>

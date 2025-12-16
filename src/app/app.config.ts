@@ -2,9 +2,10 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessC
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
-import { initializeApp } from 'firebase/app';
-import { getStorage } from 'firebase/storage';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './auth-interceptor';
+
+
 
 
 export const appConfig: ApplicationConfig = {
@@ -12,7 +13,10 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes), provideClientHydration(withEventReplay()),
-    provideHttpClient()
+    provideHttpClient(),
+     provideHttpClient(
+      withInterceptors([authInterceptor])
+    )
 
   ]
 };

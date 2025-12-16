@@ -1,0 +1,87 @@
+.card{
+    width: 90%;
+    display: flex;
+    flex-direction:  row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    
+}
+.card-item{
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items:start;
+    padding: 0px;
+    height: 70px;
+    
+}
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.btn-card{
+    border: none;
+    background-color: white;
+}
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.title{
+    font-size: 10px;
+    color: gray;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon-container {
+  background-color: #1976d2;
+  color: white;
+  border-radius: 50%;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.page-subtitle {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+

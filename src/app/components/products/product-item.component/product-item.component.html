@@ -12,17 +12,36 @@
         <div><span style="color: brown;">Sin stock</span></div>
     }
    
-    <div class="actions">
+    <div class="actions" [class.responsive]="isSmallScreen">
+  <!-- 🔹 Vista normal (pantallas grandes) -->
+  <ng-container *ngIf="!isSmallScreen">
     <button mat-icon-button (click)="toggleEdit()"><mat-icon>edit</mat-icon></button>
-    <button mat-icon-button (click)="deleteProduct(product.idproducts)" style="color: rgb(190, 89, 89);"><mat-icon>delete</mat-icon></button>
-    @if (product.is_active === 0) {
-        <button mat-icon-button (click)="toggleVisibility()">
-            <mat-icon>visibility</mat-icon>
-        </button>
-    } @else {
-        <button mat-icon-button (click)="toggleVisibility()">
-            <mat-icon>visibility_off</mat-icon>
-        </button>  
-    }
+    <button mat-icon-button (click)="deleteProduct(product.idproducts)" style="color: rgb(190, 89, 89);">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button (click)="toggleVisibility()">
+      <mat-icon>{{ product.is_active === 0 ? 'visibility' : 'visibility_off' }}</mat-icon>
+    </button>
+  </ng-container>
+
+  <!-- 🔹 Vista compacta (pantallas chicas) -->
+  <ng-container *ngIf="isSmallScreen">
+    <button mat-icon-button (click)="toggleMenu()" aria-label="Abrir menú">
+      <mat-icon>settings</mat-icon>
+    </button>
+
+    <!-- Menú desplegable -->
+    <div class="dropdown-menu" *ngIf="showMenu">
+      <button mat-icon-button (click)="toggleEdit()"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button (click)="deleteProduct(product.idproducts)" style="color: rgb(190, 89, 89);">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button (click)="toggleVisibility()">
+        <mat-icon>{{ product.is_active === 0 ? 'visibility' : 'visibility_off' }}</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+</div>
+
 </div>
 
