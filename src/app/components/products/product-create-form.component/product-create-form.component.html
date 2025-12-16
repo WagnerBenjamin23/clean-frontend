@@ -1,10 +1,25 @@
+<div class="page-header">
+  <div class="header-left">
+    <div class="icon-container">
+      <mat-icon>local_offer</mat-icon>
+    </div>
+    <div>
+      <h1 class="page-title">Productos</h1>
+      <p class="page-subtitle">Listado de productos</p>
+    </div>
+  </div>
 
- <button matFab extended style="background-color: #0C3B2E;" class="btn-add" (click)="isSubmitting=true">
+  <div class="header-right">
+    <button matFab extended style="background-color: #0C3B2E;" class="btn-add" (click)="isSubmitting=true">
         <mat-icon>add</mat-icon>
         Añadir producto
-</button>
-@if (isSubmitting) {
-  <div class="form-createEvent-container" >
+    </button>
+  </div>
+</div>
+
+ 
+
+  <div *ngIf="isSubmitting" class="form-createEvent-container" >
   <div class="form-createEvent">
     <!-- Lado izquierdo: Formulario -->
     <div class="form-left">
@@ -52,5 +67,5 @@
    
   </div>
 </div>
-}
+
 

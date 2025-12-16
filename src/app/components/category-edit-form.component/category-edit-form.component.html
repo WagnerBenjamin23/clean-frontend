@@ -1,0 +1,24 @@
+<div class="modal-backdrop"></div>
+
+<div class="modal">
+  <h2>Editar Categoría</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-button color="warn" type="button" (click)="close()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit">Guardar</button>
+    </div>
+
+  </form>
+</div>

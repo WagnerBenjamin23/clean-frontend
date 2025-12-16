@@ -19,6 +19,8 @@ import { CombosCreateFormComponent } from "../combos-create-form.component/combo
 import { ProductService } from '../../services/product/product.service';
 import { CombosService } from '../../services/combos/combos.service';
 import { forkJoin } from 'rxjs';
+import { error } from 'console';
+import { errorMonitor } from 'events';
 
 
 @Component({
@@ -38,6 +40,8 @@ export class CombosComponent implements OnInit {
   combos: any[] = [];
   selectedCombo: any | null = null; 
   showForm = false;
+  errorMessage : any = null
+
 
   constructor(private productsService : ProductService, private combosService : CombosService, private cdr : ChangeDetectorRef){}
 
@@ -66,19 +70,26 @@ export class CombosComponent implements OnInit {
     this.combosService.getCombos().subscribe({
       next: (data: any) => {
         this.combos = data.combos;
+        this.errorMessage = null;
         this.refactorCombos();
         this.cdr.detectChanges();
-        console.log('combos cargados:', this.combos)
       },
       error: (e) => {
-        console.error('Error fetching combos:', e);
+        if (e.status === 404) {
+         this.errorMessage = 'No hay combos en este momento.';
+        }
+        else{
+          this.errorMessage = 'Error al cargar los combos.';
+        }
+         this.cdr.detectChanges();
+        
       }
     }) 
   }
 
   refactorCombos(){
     this.combos = this.combos.map(combo => {
-    // Si el combo no tiene productos, devolvemos el mismo sin tocarlo
+  
     if (!combo.products) {
       return { ...combo, products: [] };
     }
@@ -110,14 +121,14 @@ export class CombosComponent implements OnInit {
 
   onComboSaved() {
     this.showForm = false;
-    this.loadCombos(); // recargar lista actualizada
+    this.loadCombos();
   }
 
   deleteCombo(comboId: number) {
   this.combosService.deleteCombo(comboId).subscribe({
     next: () => {
       this.combos = this.combos.filter(c => c.idcombos !== comboId);
-      console.log('Combo eliminado correctamente');
+
     },
     error: (err) => console.error('Error al eliminar combo:', err)
   });

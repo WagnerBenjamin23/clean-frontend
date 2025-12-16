@@ -41,6 +41,7 @@ filteredProducts : any[] = [];
 categories: any[]= [];
 stockFromQuery: string = '';
 initialStock: '' | 'inStock' | 'out' = '';
+errorMesagge : any = null;
 
 constructor(private productsService : ProductService, private cdr: ChangeDetectorRef, 
   private fb : FormBuilder, private categoryService : CategoryService,
@@ -58,7 +59,17 @@ ngOnInit(): void {
     
     this.loadProducts();
   });  
+}
 
+ngOnChanges() {
+  if (this.selectedProduct && this.editForm) {
+    this.editForm.patchValue({
+      name: this.selectedProduct.name,
+      price: this.selectedProduct.price,
+      description: this.selectedProduct.description,
+      stock: this.selectedProduct.stock
+    });
+  }
 }
 
 trackById(index: number, product: any) {
@@ -91,6 +102,14 @@ this.productsService.getProducts().subscribe({
     this.currentPage = 0;
     this.updatePaginatedProducts();
     this.cdr.detectChanges();
+  },
+  error: (e) => {
+    if(e.status === 404){
+      this.errorMesagge = 'No hay productos disponibles.';
+    }
+    else{
+      this.errorMesagge = 'Error al cargar los productos.';
+    }
   }
 })
 }
@@ -139,56 +158,56 @@ onVisibilityChange(event: {id:number, visible:boolean}) {
   }
 
 
-editProduct(_t13: any) {
-throw new Error('Method not implemented.');
-}
+editProduct(event: any) {
 
+  this.selectedProduct = event.product;
+}
 onDelete(event: {id:number}){
-  console.log("EVENTO RECIBIDO", event)
-    // 1. saco el producto de la lista principal
+  
   this.productsLoaded = this.productsLoaded.filter((p: any) => p.idproducts !== event.id);
 
-  // 2. recalculo total de páginas
   this.totalPages = Math.ceil(this.productsLoaded.length / this.pageSize);
-
-  // 3. si estoy en una página mayor al total, retrocedo
+ 
   if (this.currentPage >= this.totalPages) {
     this.currentPage = Math.max(this.totalPages - 1, 0);
   }
 
-  // 4. vuelvo a armar la lista de productos visibles
   this.updatePaginatedProducts();
 
-  // 5. fuerza renderizado
   this.cdr.detectChanges();
-
-  console.log('Productos después de borrar', this.paginatedProducts);
 }
 
 
-onEditing(product : any) {
+onEditing(event : any) {
 
-  this.selectedProduct = product;
+  this.selectedProduct = event.product;
+
 }
 
 updateProduct(updatedData: any) {
-  // Podés combinar los datos nuevos con el ID del producto original
   const productToUpdate = {
-    ...this.selectedProduct,
-    ...updatedData
+    idproducts: this.selectedProduct.idproducts,
+    name: updatedData.name || this.selectedProduct.name,
+    description: updatedData.description || this.selectedProduct.description,
+    price: updatedData.price || this.selectedProduct.price,
+    stock: updatedData.stock || this.selectedProduct.stock,
+    categories_idcategory: this.selectedProduct.categories_idcategory,
+    images: this.selectedProduct.images,
+    is_active: this.selectedProduct.is_active
   };
 
-  console.log('Datos a actualizar:', productToUpdate);
-  this.productsService.editProduct(productToUpdate.id, productToUpdate).subscribe({
+
+  this.productsService.editProduct(productToUpdate.idproducts, productToUpdate).subscribe({
     next: (res) => {
-      console.log('Producto actualizado:', res);
-      this.selectedProduct = null; // Cerrar el formulario
-      this.loadProducts(); // Volver a cargar la lista
+   
+      this.selectedProduct = null;
+      this.loadProducts(); 
     },
     error: (err) => {
       console.error('Error al actualizar el producto:', err);
     }
   });
 }
+
 
 }

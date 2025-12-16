@@ -1,4 +1,4 @@
-/* Sidebar base */
+
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -9,11 +9,10 @@
     transition: transform 0.3s ease;
 }
 
-/* Botón hamburguesa */
 .btn-toggle {
     height: 50px;
     width: 50px;
-    display: none; /* se muestra solo en pantallas chicas */
+    display: none; 
     margin: 10px;
     color: black;
     background: none;
@@ -21,7 +20,6 @@
     cursor: pointer;
 }
 
-/* Contenido del menú */
 .nav-content {
     width: 250px;
     display: flex;
@@ -32,7 +30,6 @@
     height: 100%;
 }
 
-/* Links */
 a { text-decoration: none; margin-left: 5px; }
 ul { margin: 0; padding: 0; }
 ul li { display: flex; align-items: end; list-style: none; margin: 50px; }
@@ -53,10 +50,10 @@ ul li a { color: white; }
 .nav-icon { color: #FFBA00; }
 .active { border-bottom: 2px solid #FFBA00; }
 
-/* Responsive: Pantallas < 768px */
+
 @media (max-width: 768px) {
     .sidebar {
-        transform: translateX(-100%); /* oculto por defecto */
+        transform: translateX(-100%);
         z-index: 1000;
         position: absolute;
         left: 0;
@@ -64,11 +61,11 @@ ul li a { color: white; }
     }
 
     .sidebar.open {
-        transform: translateX(0); /* visible al abrir */
+        transform: translateX(0); 
     }
 
     .btn-toggle {
-        display: block; /* se muestra el botón */
+        display: block; 
         position: relative;
         top: 0;
         left: 0;

@@ -1,38 +1,62 @@
 <div class="dashboard-container">
-    <div class="dashboard-header">
-        <div class="icon-container">
-            <span class="material-icons">dashboard</span>
-        </div>
-        <div>
-            <h1 class="dashboard-title">Panel de Control</h1>
-            <p class="dashboard-subtitle">Resumen general del sistema</p>
-        </div>
+
+  <!-- Encabezado -->
+  <div class="dashboard-header">
+    <div class="icon-container">
+      <span class="material-icons">dashboard</span>
     </div>
 
-
-  <div class="stats-grid">
-    <div class="stat-card">
-      <h3>Total de Productos</h3>
-      <p class="stat-number">{{ totalProductos }}</p>
-    </div>
-
-    <div class="stat-card">
-      <h3>Total de Categorías</h3>
-      <p class="stat-number">{{ totalCategorias }}</p>
-    </div>
-
-    <div class="stat-card">
-      <h3>Combos Activos</h3>
-      <p class="stat-number">{{ totalCombos }}</p>
-    </div>
-
-    <!-- 🔴 Nueva tarjeta: Productos sin stock -->
-    <div class="stat-card out-of-stock-card">
-      <h3>Productos sin Stock</h3>
-      <p class="stat-number">{{ productosSinStock }}</p>
-      <button class="view-details-btn" (click)="verProductosSinStock()">
-        Ver detalles
-      </button>
+    <div>
+      <h1 class="dashboard-title">Panel de Control</h1>
+      <p class="dashboard-subtitle">Resumen general del sistema</p>
     </div>
   </div>
+
+  <!-- Métricas -->
+  <section class="stats-section">
+    <h2 class="section-title">Estadísticas Generales</h2>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Total de Productos</h3>
+        <p class="stat-number">{{ totalProductos }}</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Total de Categorías</h3>
+        <p class="stat-number">{{ totalCategorias }}</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Combos Activos</h3>
+        <p class="stat-number">{{ totalCombos }}</p>
+      </div>
+
+      <div class="stat-card out-of-stock-card">
+        <h3>Productos sin Stock</h3>
+        <p class="stat-number">{{ productosSinStock }}</p>
+        <button class="view-details-btn" (click)="verProductosSinStock()">Ver detalles</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Últimos productos -->
+  <section class="recent-products-card">
+    <h3 class="section-title">🆕 Últimos Productos Agregados</h3>
+
+    <ul class="recent-products-list">
+      @for (p of ultimosProductos; track $index) {
+        <li class="recent-product-item">
+          <div class="product-info">
+            <img src="https://jumboargentina.vtexassets.com/arquivos/ids/826351-800-600?v=638551209660400000&width=800&height=600&aspect=true" alt="Imagen" class="product-thumb" />
+            <div>
+              <p class="product-name">{{ p.name }}</p>
+              <p class="product-date">{{ p.created_at | date:'dd/MM/yyyy' }}</p>
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  </section>
+
 </div>

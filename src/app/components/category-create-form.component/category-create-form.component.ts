@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { CategoryService } from '../../services/category-service';
+
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CategoryService } from '../../services/category/category.service';
 
 @Component({
   selector: 'app-category-create-form',

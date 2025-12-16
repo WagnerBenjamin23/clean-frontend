@@ -18,6 +18,7 @@ import { CombosService } from '../../services/combos/combos.service';
 @Component({
   selector: 'app-combos-create-form',
   standalone: true,
+  
   imports: [
     CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule,
     MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule,
@@ -68,7 +69,7 @@ export class CombosCreateFormComponent implements OnInit, OnChanges {
 
   initializeForm() {
     if (this.comboToEdit) {
-      // ----- MODO EDICIÓN -----
+   
       this.editMode = true;
       
       this.comboForm.patchValue({
@@ -86,7 +87,7 @@ export class CombosCreateFormComponent implements OnInit, OnChanges {
     });
 
     } else {
-      // ----- MODO CREACIÓN -----
+ 
       this.editMode = false;
       this.filteredProducts = [...this.products];
     }
@@ -95,7 +96,6 @@ export class CombosCreateFormComponent implements OnInit, OnChanges {
     this.updatePaginatedProducts();
   }
 
-  // 🧩 Selección o eliminación
   toggleProductSelection(product: any, checked: boolean) {
     if (checked) {
       this.selectedProducts.push(product);
@@ -138,7 +138,7 @@ export class CombosCreateFormComponent implements OnInit, OnChanges {
 
       request.subscribe({
         next: (response) => {
-          console.log('Combo guardado correctamente:', response);
+     
           this.editMode ? this.comboUpdated.emit(response) : this.comboCreated.emit(response);
           this.resetForm();
         },

@@ -1,5 +1,5 @@
 <div class="create">
-  <h1>Productos</h1>
+  
   <app-product-create-form></app-product-create-form>
 </div>
 
@@ -15,15 +15,20 @@
 
 <div  class="products-container">
     <div class="grid header">
-    <div>#</div>
-    <div>Nombre</div>
-    <div>Precio</div>
-    <div>Stock</div>
-    <div>Acciones</div>
+      <div>#</div>
+      <div>Nombre</div>
+      <div>Precio</div>
+      <div>Stock</div>
+      <div>Acciones</div>
     </div>
 
-        
-    <app-product-item  (isEditing)="onEditing(product)" (onDelete)="onDelete($event)" *ngFor="let product of paginatedProducts; let i = index; trackBy: trackById" [product]="product" [index]="i" (visibilityChange)="onVisibilityChange($event)"></app-product-item>
+    @if (errorMesagge ) {
+    <div class="no-products">
+      <mat-icon>info</mat-icon>
+      {{ errorMesagge }}
+    </div>
+    }
+    <app-product-item  (edit)="editProduct($event)" (onDelete)="onDelete($event)" *ngFor="let product of paginatedProducts; let i = index; trackBy: trackById" [product]="product" [index]="i" (visibilityChange)="onVisibilityChange($event)"></app-product-item>
     
 
     <div class="pagination">
@@ -34,7 +39,7 @@
 </div>
 
 @if (selectedProduct) {
-  <div class="edit-form-overlay" *ngIf="selectedProduct">
+  <div class="edit-form-overlay" >
     <app-product-edit-form
     [selectedProduct]="selectedProduct" 
     (save)="updateProduct($event)"

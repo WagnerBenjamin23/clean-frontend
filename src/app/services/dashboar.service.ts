@@ -10,8 +10,16 @@ export class DashboarService {
   private apiUrl = environments.URL_LOCAL;
 
   constructor(private http : HttpClient) { }
+   createHeader(){
+    const token = localStorage.getItem('token');
+    return {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+  }
 
   getDashboardMetrics() {
-    return this.http.get(`${this.apiUrl}/dashboard/metrics`);
+    return this.http.get(`${this.apiUrl}/dashboard/metrics`, this.createHeader());
   }
 }

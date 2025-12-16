@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from "@angular/material/input";
 import { ProductService } from '../../../services/product/product.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-product-edit-form',
-  imports: [MatInputModule, ReactiveFormsModule, FormsModule],
+  imports: [MatInputModule, ReactiveFormsModule, FormsModule,],
   templateUrl: './product-edit-form.component.html',
   styleUrl: './product-edit-form.component.scss'
 })
@@ -31,11 +32,6 @@ export class ProductEditFormComponent implements OnInit{
     this.save.emit(this.editForm.value);
   }
 }
-
-
-  editProduct(){
-
-  }
 
 
 }

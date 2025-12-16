@@ -2,16 +2,18 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatCard, MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { CategoryCreateFormComponent } from "../category-create-form.component/category-create-form.component";
-import { CategoryService } from '../../services/category-service';
+import { CategoryService } from '../../services/category/category.service';
+import { CategoryEditFormComponent } from "../category-edit-form.component/category-edit-form.component";
 
 @Component({
+  standalone: true,
   selector: 'app-categories.component',
-  imports: [MatCard, MatCardModule, MatIconModule, CategoryCreateFormComponent],
+  imports: [MatCard, MatCardModule, MatIconModule, CategoryCreateFormComponent, CategoryEditFormComponent],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
 export class CategoriesComponent {
-
+  selectedCategory: any = null;
   categories: any = [];
 
   constructor(private categoryService : CategoryService, private cdr : ChangeDetectorRef){}
@@ -22,8 +24,8 @@ export class CategoriesComponent {
 
   deleteCategory(id : number) {
     this.categoryService.deleteCategory(id).subscribe({
-      next: response => console.log(response),
-      error: error => console.log(error),
+      next: (response: any) => console.log(response),
+      error: (error: any) => console.log(error),
       complete: () => this.loadCategories()
     });
   }
@@ -32,11 +34,27 @@ export class CategoriesComponent {
     this.categoryService.getAllCategories().subscribe({
       next: (data: any) => {
         this.categories = data.categories ?? data;
-        console.log('cate cargadas', this.categories);
         this.cdr.detectChanges();
       },
       error: error => console.log(error)
     })
+  }
+
+    editCategory(category: any) {
+
+    this.selectedCategory = { ...category };
+  }
+
+    cancelEdit() {
+      this.selectedCategory = null;
+    }
+
+    updateCategory(updated: any) {
+    const idx = this.categories.findIndex((c: { idcategory: any; }) => c.idcategory === updated.idcategory);
+    if (idx !== -1) {
+      this.categories[idx] = updated;
+    }
+    this.selectedCategory = null;
   }
 
 }

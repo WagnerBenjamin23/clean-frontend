@@ -43,10 +43,15 @@ export class ProductService {
 }
 
  uploadImages(productId: number, formData: FormData): Observable<string[]> {
-    return this.http.post<string[]>(`${this.apiUrl}/${productId}/images`, formData);
+    return this.http.post<string[]>(`${this.apiUrl}/${productId}/images`, formData, this.createHeader());
   }
 
   editProduct(productId: number, updatedData: any) {
-    return this.http.put(`${this.apiUrl}/${productId}`, updatedData, this.createHeader());
+    return this.http.put(`${this.apiUrl}/${productId}`,updatedData, this.createHeader());
   }
+
+  getUltimosProductos(limit: number = 5): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/latest?limit=${limit}`, this.createHeader());
+  }
+
 }
