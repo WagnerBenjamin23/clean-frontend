@@ -191,12 +191,15 @@ updateProduct(updatedData: any) {
     description: updatedData.description || this.selectedProduct.description,
     price: updatedData.price || this.selectedProduct.price,
     stock: updatedData.stock || this.selectedProduct.stock,
-    categories_idcategory: this.selectedProduct.categories_idcategory,
+    id_category: this.selectedProduct.categories_idcategory,
     images: this.selectedProduct.images,
     is_active: this.selectedProduct.is_active
   };
 
+  console.log('selectedProduct', this.selectedProduct);
 
+
+  console.log('Updating product with data:', productToUpdate);
   this.productsService.editProduct(productToUpdate.idproducts, productToUpdate).subscribe({
     next: (res) => {
    
