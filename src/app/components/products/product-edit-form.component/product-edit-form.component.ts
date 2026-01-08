@@ -6,14 +6,19 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-product-edit-form',
-  imports: [MatInputModule, ReactiveFormsModule, FormsModule,],
+  imports: [MatInputModule, ReactiveFormsModule, FormsModule, MatButtonModule],
   templateUrl: './product-edit-form.component.html',
   styleUrl: './product-edit-form.component.scss'
 })
 export class ProductEditFormComponent implements OnInit{
   @Input() selectedProduct: any;
   @Output() save = new EventEmitter<any>();
+  @Output() cancel = new EventEmitter<void>();
   editForm!: FormGroup;
+
+
+  
+
 
   
   constructor( private fb : FormBuilder, private productService: ProductService) {
@@ -28,10 +33,15 @@ export class ProductEditFormComponent implements OnInit{
   }
 
   onSave() {
-  if (this.editForm.valid) {
-    this.save.emit(this.editForm.value);
+    if (this.editForm.valid) {
+      console.log('Form values to save:', this.editForm.value);
+      this.save.emit(this.editForm.value);
+    }
   }
-}
+
+  onCancel() {
+  this.cancel.emit();
+  }
 
 
 }

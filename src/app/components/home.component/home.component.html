@@ -48,7 +48,11 @@
       @for (p of ultimosProductos; track $index) {
         <li class="recent-product-item">
           <div class="product-info">
-            <img src="https://jumboargentina.vtexassets.com/arquivos/ids/826351-800-600?v=638551209660400000&width=800&height=600&aspect=true" alt="Imagen" class="product-thumb" />
+            <img
+              [src]="p.image || 'assets/no-image.png'"
+              alt="Imagen"
+              class="product-thumb"
+            />
             <div>
               <p class="product-name">{{ p.name }}</p>
               <p class="product-date">{{ p.created_at | date:'dd/MM/yyyy' }}</p>

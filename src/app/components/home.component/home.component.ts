@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { DashboarService } from '../../services/dashboar.service';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product/product.service';
 
 @Component({
+  standalone: true,
   selector: 'app-home.component',
-  imports: [DecimalPipe, DatePipe],
+  imports: [CommonModule, DecimalPipe, DatePipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -17,23 +18,33 @@ export class HomeComponent {
   productosSinStock = 0;
   ultimosProductos: any[] = [];
 
-  constructor( private dashboardService : DashboarService, private router : Router, private productService : ProductService) {}
+  constructor( private dashboardService : DashboarService, private router : Router, 
+    private productService : ProductService, private cdr : ChangeDetectorRef) {}
   ngOnInit(): void {
+
+    console.log('HOME INIT');
       this.productService.getUltimosProductos(5).subscribe({
-      next: (data) => { 
-        this.ultimosProductos = data
+      next: (data :any) => { 
+        this.ultimosProductos = data['data'];
+        console.log('Últimos productos cargados:', this.ultimosProductos);
+        this.cdr.detectChanges();
       },
       error: (err) => console.error('Error cargando últimos productos', err)
     });
     this.loadDashboardData();
+
+ 
   }
 
   loadDashboardData() {
     this.dashboardService.getDashboardMetrics().subscribe((data: any) => {
+      console.log('Dashboard metrics loaded:', data);
       this.totalProductos = data.productsCount;
       this.totalCategorias = data.categoriesCount;
       this.totalCombos = data.combosCount;
       this.productosSinStock = data.productsOutOfStock;
+      this.cdr.detectChanges();
+      
     });
   }
 
