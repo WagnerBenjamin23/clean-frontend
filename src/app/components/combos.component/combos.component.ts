@@ -21,6 +21,7 @@ import { CombosService } from '../../services/combos/combos.service';
 import { forkJoin } from 'rxjs';
 import { error } from 'console';
 import { errorMonitor } from 'events';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -43,7 +44,8 @@ export class CombosComponent implements OnInit {
   errorMessage : any = null
 
 
-  constructor(private productsService : ProductService, private combosService : CombosService, private cdr : ChangeDetectorRef){}
+  constructor(private productsService : ProductService, private combosService : CombosService, 
+    private cdr : ChangeDetectorRef, private router : Router){}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -111,7 +113,13 @@ export class CombosComponent implements OnInit {
 
   onComboCreated(newCombo: any) {
     this.combos.push({ ...newCombo, id: this.combos.length + 1 });
+    this.errorMessage=null;
     this.showForm = false;
+    this.cdr.detectChanges();
+
+     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.router.navigate(['/admin/combos']);
+  });
   }
 
   editCombo(combo: any) {
@@ -128,7 +136,10 @@ export class CombosComponent implements OnInit {
   this.combosService.deleteCombo(comboId).subscribe({
     next: () => {
       this.combos = this.combos.filter(c => c.idcombos !== comboId);
-
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/admin/combos']);
+    });
+      
     },
     error: (err) => console.error('Error al eliminar combo:', err)
   });

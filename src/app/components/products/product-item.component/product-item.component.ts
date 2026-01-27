@@ -26,9 +26,6 @@ export class ProductItemComponent implements OnInit {
      this.checkScreenSize();
   }
 
-  
-  
-  // product-item.component.ts
   @Output() visibilityChange = new EventEmitter<{id:number, visible:boolean}>();
   @Output() edit = new EventEmitter<{product:any, isEditing: boolean}>();
   @Output() onDelete = new EventEmitter<{id:number}>();
@@ -41,9 +38,9 @@ export class ProductItemComponent implements OnInit {
   }
 
   checkScreenSize() {
-    this.isSmallScreen = window.innerWidth < 768; // podés ajustar el breakpoint
+    this.isSmallScreen = window.innerWidth < 768;
     if (!this.isSmallScreen) {
-      this.showMenu = false; // cerrar menú al agrandarse la pantalla
+      this.showMenu = false; 
     }
   }
 
@@ -68,23 +65,14 @@ export class ProductItemComponent implements OnInit {
       this.edit.emit({product: this.product, isEditing: true })
     }  
   }
-  
-  nextPage() {
-  throw new Error('Method not implemented.');
-  }
-  prevPage() {
-  throw new Error('Method not implemented.');
-  }
 
 
   deleteProduct(idProduct : number) {
   this.productsService.deleteProduct(idProduct).subscribe({
     next: (data) => {
-      console.log("Produto borrado")
       this.onDelete.emit({id:this.product.idproducts});
     },
     error: (e) => {
-      console.log("Error", e)
     }
   })
 }

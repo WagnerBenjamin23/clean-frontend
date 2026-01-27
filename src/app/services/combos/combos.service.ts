@@ -10,7 +10,7 @@ export class CombosService {
 
   constructor(private http : HttpClient){}
 
-  private apiUrl = environments.URL_LOCAL;
+  private apiUrl = environments.URL;
   
    createHeader(){
     const token = localStorage.getItem('token');

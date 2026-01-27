@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CategoryService } from '../../../services/category/category.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-products-filter',
@@ -27,12 +28,15 @@ export class ProductsFilterComponent implements OnInit, OnChanges {
   @Output() filterChange = new EventEmitter<any[]>();
   @Input() products: any[] = [];
   @Input() categories: any[] = [];
-  @Input() initialStock: '' | 'inStock' | 'out' = '';
+  @Input() initialStock: '' | 'inStock' | 'out' = 'inStock';
 
   filterForm!: FormGroup;
   filteredProducts: any[] = [];
 
-  constructor(private fb: FormBuilder, private categoryService: CategoryService, private cdr: ChangeDetectorRef) {}
+  constructor(private fb: FormBuilder, private categoryService: CategoryService, 
+    private cdr: ChangeDetectorRef, private route: ActivatedRoute) {
+       
+    }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
@@ -73,26 +77,24 @@ export class ProductsFilterComponent implements OnInit, OnChanges {
 
     let filtered = [...this.products];
 
-    // Filtrar por nombre
     if (search) {
       filtered = filtered.filter(p =>
         p.name.toLowerCase().includes(search.toLowerCase())
       );
     }
 
-    // Filtrar por categoría
+
     if (category) {
       filtered = filtered.filter(p => p.categories_idcategory === category);
     }
 
-    // Filtrar por stock
     if (stock) {
       filtered = filtered.filter(p =>
         stock === 'inStock' ? p.stock > 0 : p.stock === 0
       );
     }
 
-    // Filtrar por precio
+    
     filtered = filtered.filter(p => p.price >= (minPrice || 0) && p.price <= (maxPrice || Infinity));
 
     this.filteredProducts = filtered;

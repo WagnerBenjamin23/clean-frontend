@@ -24,7 +24,9 @@ export class CategoriesComponent {
 
   deleteCategory(id : number) {
     this.categoryService.deleteCategory(id).subscribe({
-      next: (response: any) => console.log(response),
+      next: (response: any) => {console.log(response)
+        this.cdr.detectChanges();
+      },
       error: (error: any) => console.log(error),
       complete: () => this.loadCategories()
     });
@@ -34,7 +36,9 @@ export class CategoriesComponent {
     this.categoryService.getAllCategories().subscribe({
       next: (data: any) => {
         this.categories = data.categories ?? data;
+        console.log(this.categories);
         this.cdr.detectChanges();
+
       },
       error: error => console.log(error)
     })

@@ -1,14 +1,49 @@
+
 .grid-item {
-      display: grid;
-      grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
-      align-items: center;
-      padding: 5px;
-      border-bottom: 1px solid #ccc;
-    }
-    .actions{
-      display: flex;
-    }
-    .actions button {
-      margin-right: 5px;
-      cursor: pointer;
-    }
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+.actions {
+  display: flex;
+  gap: 5px;
+}
+
+
+@media (max-width: 768px) {
+
+  .grid-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: #fff;
+  }
+
+  .grid-item > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .grid-item > div::before {
+    font-weight: 600;
+    color: #555;
+  }
+
+  /* Labels */
+  .grid-item > div:nth-child(1)::before { content: "ID"; }
+  .grid-item > div:nth-child(2)::before { content: "Nombre"; }
+  .grid-item > div:nth-child(3)::before { content: "Precio"; }
+  .grid-item > div:nth-child(4)::before { content: "Stock"; }
+  .grid-item > div:nth-child(5)::before { content: "Acciones"; }
+
+  .actions {
+    justify-content: flex-end;
+  }
+}

@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DashboarService {
   
-  private apiUrl = environments.URL_LOCAL;
+  private apiUrl = environments.URL;
 
   constructor(private http : HttpClient) { }
    createHeader(){

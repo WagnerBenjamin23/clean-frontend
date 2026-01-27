@@ -1,11 +1,53 @@
+
 .filters-container {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.filter-field {
+  max-width: 180px;
+  width: 100%;
+}
+
+.price-slider {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+
+
+@media (max-width: 1020px) {
+
+  .filters-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .filter-field {
+    max-width: 100%;
+  }
+
+  .price-slider {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
+  }
+
+  .price-slider mat-form-field {
+    width: 100%;
+    max-width: none;
+  }
+
+  button {
+    width: 100%;
+    background-color: #0C3B2E;
+  }
 }
-.filter-field{
-    max-width: 180px; 
-}
-.filter-field .price{
-    max-width: 120px;
-}   

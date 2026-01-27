@@ -53,3 +53,32 @@
   .form-category button:hover {
     background-color: #b1850d;
   }
+
+  @media (max-width: 600px) {
+  .form-category {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.form-category form {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+  .form-item {
+    width: 100%;
+  }
+
+  .form-category input[type="number"] {
+    width: 100%;
+  }
+
+  .form-category button {
+    width: 100%;
+  }
+}

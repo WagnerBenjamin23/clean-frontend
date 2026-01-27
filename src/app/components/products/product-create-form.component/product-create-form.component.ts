@@ -93,9 +93,6 @@ export class ProductCreateFormComponent implements OnInit {
         ...this.productForm.value,
         images: imageUrls
       };
-
-      console.log('JSON a enviar al backend:', productData);
-
     
       this.productService.createProduct(productData).subscribe({
         next: (res) => {
