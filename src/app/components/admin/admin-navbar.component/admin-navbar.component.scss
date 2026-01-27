@@ -51,7 +51,7 @@ ul li a { color: white; }
 .active { border-bottom: 2px solid #FFBA00; }
 
 
-@media (max-width: 768px) {
+@media (max-width: 1220px) {
     .sidebar {
         transform: translateX(-100%);
         z-index: 1000;

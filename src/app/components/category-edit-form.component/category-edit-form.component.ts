@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CategoryService } from '../../services/category/category.service';
 import { MatFormField } from '@angular/material/form-field';
@@ -12,9 +12,6 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, MatFormField, ReactiveFormsModule, MatInputModule ]
 })
 export class CategoryEditFormComponent {
-close() {
-throw new Error('Method not implemented.');
-}
 
   @Input() category: any;
   @Output() cancel = new EventEmitter<void>();
@@ -35,18 +32,36 @@ throw new Error('Method not implemented.');
     });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['category'] && this.category) {
+      if (!this.form) {
+        this.form = this.fb.group({
+          idcategory: [this.category.idcategory],
+          name: [this.category.name],
+          description: [this.category.description]
+        });
+      } else {
+        this.form.patchValue(this.category);
+      }
+    }
+  }
+
+  close() {
+  this.cancel.emit();
+  }
+
+
   save() {
     if (this.form.valid) {
       this.categoryService.updateCategory(this.form.value).subscribe({
         next: (response) => {
-       
+          console.log('Respuesta backend:', response);
           this.saved.emit(response);
         },
         error: (error) => {
-          console.error('Error updating category', error);
+          console.error('Error editando categoria', error);
         }
       });
-
     }
   }
 }

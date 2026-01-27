@@ -82,7 +82,6 @@ getAllCategories(){
         this.categories = data.categories;
       },
       error: (e) => {
-        console.error("Categorias no disponiles")
       }
     })
   }
@@ -117,7 +116,6 @@ this.productsService.getProducts().subscribe({
 onProductsFiltered(filtered: any[]) {
     this.filteredProducts = filtered;
     this.updatePaginatedProducts();
-    console.log('FILTRADOS', this.filteredProducts)
   }
 
 onVisibilityChange(event: {id:number, visible:boolean}) {
@@ -126,10 +124,8 @@ onVisibilityChange(event: {id:number, visible:boolean}) {
   
   this.productsService.changeProductVisibility(event.id, event.visible ? 0 : 1).subscribe({
     next: (data:any) => {
-      console.log('Product visibility changed', data);
     },
     error: (error:any) => {
-      console.error('Error changing product visibility', error);
       if (product) product.is_active = !event.visible;
     }
     
@@ -196,10 +192,6 @@ updateProduct(updatedData: any) {
     is_active: this.selectedProduct.is_active
   };
 
-  console.log('selectedProduct', this.selectedProduct);
-
-
-  console.log('Updating product with data:', productToUpdate);
   this.productsService.editProduct(productToUpdate.idproducts, productToUpdate).subscribe({
     next: (res) => {
    
@@ -207,7 +199,6 @@ updateProduct(updatedData: any) {
       this.loadProducts(); 
     },
     error: (err) => {
-      console.error('Error al actualizar el producto:', err);
     }
   });
 }

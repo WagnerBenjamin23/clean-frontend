@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -48,7 +48,9 @@ export class CombosCreateFormComponent implements OnInit, OnChanges {
   pageSize: number = 3;
   totalPages: number = 1;
 
-  constructor(private fb: FormBuilder, private combosService: CombosService) {
+  constructor(private fb: FormBuilder, private combosService: CombosService,
+    private cdr : ChangeDetectorRef
+  ) {
     this.comboForm = this.fb.group({
       name: [''],
       price: [''],
@@ -141,6 +143,7 @@ export class CombosCreateFormComponent implements OnInit, OnChanges {
      
           this.editMode ? this.comboUpdated.emit(response) : this.comboCreated.emit(response);
           this.resetForm();
+          this.cdr.detectChanges();
         },
         error: (error) => console.error('Error guardando el combo:', error)
       });

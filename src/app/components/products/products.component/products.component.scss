@@ -44,3 +44,22 @@
   color: #888;
 }
 
+/* Header desktop */
+.grid.header {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
+  font-weight: bold;
+  background-color: #ffbb008f;
+  padding: 5px;
+}
+
+/* Mobile: ocultar header */
+@media (max-width: 768px) {
+  .grid.header {
+    display: none;
+  }
+
+  .products-container {
+    margin: 10px;
+  }
+}

@@ -10,7 +10,7 @@ export class ProductService {
   toggleProductVisibility(product: any, id: any) {
     throw new Error('Method not implemented.');
   }
-  private apiUrl = environments.URL_LOCAL + '/products';
+  private apiUrl = environments.URL + '/products';
   
   constructor(private http : HttpClient){}
   createHeader(){
