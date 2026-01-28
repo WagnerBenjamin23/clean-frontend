@@ -7,9 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService {
-  toggleProductVisibility(product: any, id: any) {
-    throw new Error('Method not implemented.');
-  }
+  
   private apiUrl = environment.URL + '/products';
   
   constructor(private http : HttpClient){}
