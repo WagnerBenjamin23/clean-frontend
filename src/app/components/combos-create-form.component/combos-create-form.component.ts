@@ -133,7 +133,6 @@ export class CombosCreateFormComponent implements OnInit, OnChanges {
         products: this.selectedProducts.map(p => p.idproducts)
       };
 
-      console.log('COMBO A EDITAR', this.comboToEdit)
       const request = this.editMode
         ? this.combosService.updateCombo(this.comboToEdit.idcombo, comboData)
         : this.combosService.createCombo(comboData);

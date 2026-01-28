@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environments } from '../../environments';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class CombosService {
 
   constructor(private http : HttpClient){}
 
-  private apiUrl = environments.URL;
+  private apiUrl = environment.URL;
   
    createHeader(){
     const token = localStorage.getItem('token');

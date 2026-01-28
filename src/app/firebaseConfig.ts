@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
-import { environments } from './environments'
+import { environment } from 'src/environments/environment'
 
-const app = initializeApp(environments.firebaseConfig);
+const app = initializeApp(environment.firebaseConfig);
 export const storage = getStorage(app);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environments } from '../../environments';
+import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,7 +10,7 @@ export class ProductService {
   toggleProductVisibility(product: any, id: any) {
     throw new Error('Method not implemented.');
   }
-  private apiUrl = environments.URL + '/products';
+  private apiUrl = environment.URL + '/products';
   
   constructor(private http : HttpClient){}
   createHeader(){
