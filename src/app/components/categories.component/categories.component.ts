@@ -36,7 +36,6 @@ export class CategoriesComponent {
     this.categoryService.getAllCategories().subscribe({
       next: (data: any) => {
         this.categories = data.categories ?? data;
-        console.log(this.categories);
         this.cdr.detectChanges();
 
       },
@@ -57,6 +56,7 @@ export class CategoriesComponent {
     const idx = this.categories.findIndex((c: { idcategory: any; }) => c.idcategory === updated.idcategory);
     if (idx !== -1) {
       this.categories[idx] = updated;
+      this.cdr.detectChanges();
     }
     this.selectedCategory = null;
   }

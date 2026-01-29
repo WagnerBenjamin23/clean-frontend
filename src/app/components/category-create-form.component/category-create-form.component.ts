@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +13,9 @@ import { CategoryService } from '../../services/category/category.service';
 export class CategoryCreateFormComponent {
   formCategory! : FormGroup; 
 
-  constructor(private categoryService : CategoryService, private fb : FormBuilder){}
+  constructor(private categoryService : CategoryService, private fb : FormBuilder,
+    private cdr : ChangeDetectorRef
+  ){}
   
   ngOnInit(): void {
     this.formCategory = this.fb.group({
@@ -25,8 +27,8 @@ export class CategoryCreateFormComponent {
   saveCategory() {
  
     this.categoryService.saveCategory(this.formCategory.value).subscribe({
-      next: response => console.log(response),
-      error: error => console.log(error)
+      next: response => { this.cdr.detectChanges(); this.formCategory.reset(); },
+      error: error => {}
     })
   }
 
