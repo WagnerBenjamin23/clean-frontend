@@ -2,7 +2,7 @@ export const environment = {
     production: false,
     URL: "https://clean-backend-oo3j.onrender.com/api/v1",
     URL_LOCAL: 'http://localhost:5000/api/v1',
-    apiKey: "clean_pps_api_key_2026",
+    apiKeyBackend: "clean_pps_api_key_2026",
     firebaseConfig : {
         apiKey: "AIzaSyC-tZiLkRkGBDXji6rogyp-asLEchW1c4w",
         authDomain: "clean-b63d0.firebaseapp.com",

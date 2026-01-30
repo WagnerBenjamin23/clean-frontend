@@ -11,7 +11,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authReq = req.clone({
     setHeaders: {
       Authorization: token ? `Bearer ${token}` : '',
-      'x-api-key': environment.apiKey
+      'x-api-key': environment.apiKeyBackend
     }
   });
 
