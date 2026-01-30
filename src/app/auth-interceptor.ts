@@ -1,32 +1,27 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
+import { tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const token = localStorage.getItem('token');
 
-  let authReq = req;
-
-  if (token) {
-    authReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-  }
+  const authReq = req.clone({
+    setHeaders: {
+      Authorization: token ? `Bearer ${token}` : '',
+      'x-api-key': environment.apiKey
+    }
+  });
 
   return next(authReq).pipe(
-    catchError((error: HttpErrorResponse) => {
-
-      if (error.status === 401 || error.status === 403) {
-        console.warn('TOKEN EXPIRADO → redirect al login');
-        localStorage.removeItem('token');
-        router.navigateByUrl('/login');
+    tap({
+      error: (error) => {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
+          router.navigateByUrl('/login');
+        }
       }
-
-      return throwError(() => error);
     })
   );
 };
